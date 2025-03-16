@@ -3,13 +3,14 @@ const {
   createCompany,
   getAllCompanies,
   getCompanyById,
+  updateCompanyinfo,
+  deleteCompany,
 } = require("../Model/company");
 
 const router = express.Router();
 
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
-
   try {
     const company = await getCompanyById(id);
     res.json(company);
@@ -27,6 +28,20 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  const id = req.params.id;
+  const name = req.body.name;
+  if (!id || !name) {
+    res.status(400).json({ msg: "name and id is required" });
+  }
+  try {
+    const company = await updateCompanyinfo(id, name);
+    res.json(company);
+  } catch (error) {
+    res.status(500).json({ err: error.name });
+  }
+});
+
 router.post("/", async (req, res) => {
   const name = req.body.name;
   if (!name) {
@@ -37,6 +52,16 @@ router.post("/", async (req, res) => {
     res.json(user);
   } catch (error) {
     res.status(500).json({ error });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    await deleteCompany(id);
+    res.status(200).json({ msg: "deleted successfully" });
+  } catch (error) {
+    res.status(500).jsonp({ msq: "err" });
   }
 });
 

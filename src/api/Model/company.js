@@ -26,4 +26,24 @@ async function getCompanyById(id) {
   return company;
 }
 
-module.exports = { createCompany, getAllCompanies, getCompanyById };
+async function updateCompanyinfo(id, name) {
+  const company = await sql`
+  UPDATE companies SET name = ${name} WHERE id = ${id}
+  RETURNING *;
+  `;
+  return company;
+}
+
+async function deleteCompany(id) {
+  await sql`
+    DELETE FROM companies WHERE id= ${id}
+    `;
+}
+
+module.exports = {
+  createCompany,
+  getAllCompanies,
+  getCompanyById,
+  updateCompanyinfo,
+  deleteCompany,
+};
