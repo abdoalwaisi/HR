@@ -1,6 +1,9 @@
 const express = require("express");
 const company = require("./src/api/Routes/company");
 const register = require("./src/api/Routes/register");
+const login = require("./src/api/Routes/login");
+const employee = require("./src/api/Routes/employee");
+require("dotenv").config();
 
 const app = express();
 
@@ -9,6 +12,8 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/companies", company);
 app.use("/api/register", register);
+app.use("/api/login", login);
+app.use("/api/employee", employee);
 
 app.listen(8080, () => {
   console.log("server is runing");

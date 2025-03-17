@@ -7,6 +7,8 @@ const {
   deleteCompany,
 } = require("../Model/company");
 
+const Authentication = require("../Middlewares/Authentication");
+
 const router = express.Router();
 
 router.get("/:id", async (req, res) => {
@@ -19,7 +21,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", Authentication, async (req, res) => {
   try {
     const companies = await getAllCompanies();
     res.json(companies);
