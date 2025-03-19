@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 async function login(username, password) {
   const [user] = await sql`
-      SELECT username, password FROM employees 
+      SELECT username, password , id FROM employees 
       WHERE username=${username}
     `;
   if (!user) {
@@ -15,9 +15,13 @@ async function login(username, password) {
   if (!isMatch) {
     throw new Error("password not match");
   }
-  const token = jwt.sign({ username: user.username }, process.env.SECRET_KEY, {
-    expiresIn: "1h",
-  });
+  const token = jwt.sign(
+    { username: user.username, id: user.id },
+    process.env.SECRET_KEY,
+    {
+      expiresIn: "1h",
+    }
+  );
 
   return token;
 }

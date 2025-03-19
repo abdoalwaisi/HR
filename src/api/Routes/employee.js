@@ -1,8 +1,9 @@
 const express = require("express");
 const { getAllEmployees, getEmployeeById } = require("../Model/employee");
+const Authentication = require("../Middlewares/Authentication");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/all", async (req, res) => {
   try {
     const employees = await getAllEmployees();
     res.status(200).json(employees);
@@ -11,8 +12,8 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
-  const id = req.params.id;
+router.get("/info", Authentication, async (req, res) => {
+  const id = req.user.id;
   if (!id) {
     return res.status(400).jsonp({ msg: "id is required" });
   }
