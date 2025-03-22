@@ -30,12 +30,12 @@ CREATE TABLE IF NOT EXISTS public.employees
 (
     id uuid NOT NULL DEFAULT gen_random_uuid(),
     name text COLLATE pg_catalog."default" NOT NULL,
-    salary numeric NOT NULL,
-    department_id uuid NOT NULL,
-    role_id uuid NOT NULL,
-    hire_date date,
-    username text COLLATE pg_catalog."default" NOT NULL,
-    password text COLLATE pg_catalog."default" NOT NULL,
+    salary numeric,
+    company_id uuid,
+    role_id uuid,
+    hire_date date DEFAULT now(),
+    username text COLLATE pg_catalog."default",
+    password text COLLATE pg_catalog."default",
     phone_number text COLLATE pg_catalog."default",
     CONSTRAINT employee_pkey PRIMARY KEY (id),
     CONSTRAINT username UNIQUE (username)
@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS public.projects
     start_date date,
     end_date date,
     department_id uuid,
+    description text COLLATE pg_catalog."default",
     CONSTRAINT project_pkey PRIMARY KEY (id)
 );
 
@@ -102,10 +103,11 @@ ALTER TABLE IF EXISTS public.employees
 
 
 ALTER TABLE IF EXISTS public.employees
-    ADD CONSTRAINT employye_department_fkey FOREIGN KEY (department_id)
-    REFERENCES public.departments (id) MATCH SIMPLE
+    ADD CONSTRAINT employye_company_fkey FOREIGN KEY (company_id)
+    REFERENCES public.companies (id) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION;
+    ON DELETE NO ACTION
+    NOT VALID;
 
 
 ALTER TABLE IF EXISTS public.projects
