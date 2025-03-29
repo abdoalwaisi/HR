@@ -7,10 +7,10 @@ async function getAllRols() {
     return roles
 }
 
-async function createRole(title, description = null, departmant_id = null) {
+async function createRole(title, description = null, department_id) {
   const role = await sql`
   INSERT INTO roles (title , description , department_id)
-    VALUES (${title},${description},${departmant_id})\
+    VALUES (${title},${description},${department_id})\
     RETURNING *
     `;
   return role;

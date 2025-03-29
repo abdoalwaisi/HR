@@ -6,6 +6,7 @@ const employee = require("./src/api/Routes/employee");
 const project = require("./src/api/Routes/project");
 const role = require("./src/api/Routes/role");
 const employeeProjects = require("./src/api/Routes/employee_projects");
+const department = require("./src/api/Routes/department");
 require("dotenv").config();
 
 const app = express();
@@ -20,6 +21,7 @@ app.use("/api/employee", employee);
 app.use("/api/project", project);
 app.use("/api/role", role);
 app.use("/api/employee_projects", employeeProjects);
+app.use("/api/department", department);
 
 app.listen(8080, () => {
   console.log("server is runing");

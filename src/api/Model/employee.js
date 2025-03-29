@@ -15,4 +15,24 @@ async function getEmployeeById(id) {
   return employees;
 }
 
-module.exports = { getAllEmployees, getEmployeeById };
+async function getAllEmployeesFromDepartment(departmentName) {
+  const employees = await sql`
+select
+  employees.name as name ,
+  employees.id as employees_id,
+  employees.phone_number as phone_number,
+  roles.title as role,
+  departments.name as department
+from ((employees 
+inner join roles on roles.id = employees.role_id)
+inner join departments on departments.id = roles.department_id)
+where departments.name = ${departmentName}
+    `;
+  return employees;
+}
+
+module.exports = {
+  getAllEmployees,
+  getEmployeeById,
+  getAllEmployeesFromDepartment,
+};

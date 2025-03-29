@@ -15,12 +15,12 @@ router.get("/all", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { title, description, departmant_id } = req.body;
+  const { title, description, department_id } = req.body;
   if (!title) {
     return res.status(400).json({ msg: "missing info" });
   }
   try {
-    const role = await createRole(title);
+    const role = await createRole(title, null, department_id);
     res.status(200).json(role);
   } catch (error) {
     if (error) {

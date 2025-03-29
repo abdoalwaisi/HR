@@ -9,7 +9,7 @@ async function register(
   hire_date = null,
   username,
   password,
-  phone_number
+  phone_number = null
 ) {
   const hash = bcrypt.hashSync(password, 10);
 

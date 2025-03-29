@@ -40,7 +40,9 @@ router.put("/:id", async (req, res) => {
     const company = await updateCompanyinfo(id, name);
     res.json(company);
   } catch (error) {
-    res.status(500).json({ err: error.name });
+    if (error) {
+      return res.status(500).json({ err: error.name });
+    }
   }
 });
 
