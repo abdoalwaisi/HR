@@ -8,12 +8,18 @@ const router = express.Router();
 // } )
 
 router.post("/", async (req, res) => {
-  const name = req.body.name;
-  if (!name) {
+  const { name, department_id, description } = req.body;
+  if (!name || !department_id) {
     res.status(400).json({ msg: "name is required" });
   }
   try {
-    const project = await createNewProject(name);
+    const project = await createNewProject(
+      name,
+      null,
+      null,
+      department_id,
+      description
+    );
     res.status(200).json(project);
   } catch (error) {
     if (error) {
