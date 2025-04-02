@@ -4,7 +4,15 @@ const { register } = require("../Model/register");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-  const { name, username, password, company_id, role_id } = req.body;
+  const {
+    name,
+    salary,
+    company_id,
+    role_id,
+    username,
+    password,
+    phone_number,
+  } = req.body;
   if ((!name, !username, !password)) {
     return res
       .status(400)
@@ -13,13 +21,13 @@ router.post("/", async (req, res) => {
   try {
     const employee = await register(
       name,
-      null,
+      salary,
       company_id,
       role_id,
       null,
       username,
       password,
-      null
+      phone_number
     );
     res.status(200).json(employee);
   } catch (error) {

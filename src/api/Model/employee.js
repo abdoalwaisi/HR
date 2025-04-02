@@ -31,8 +31,38 @@ where departments.name = ${departmentName}
   return employees;
 }
 
+async function updateEmployeeInfo(
+  name,
+  salary = null,
+  role_id = null,
+  hire_date = null,
+  username,
+  phone_number = null
+) {
+  const employee = await sql`
+  UPDATE  employees
+  SET name = ${name} ,
+   salary = ${salary} ,
+   role_id = ${role_id} ,
+   hire_date = ${hire_date} ,
+   phone_number = ${phone_number}
+   WHERE username = ${username}
+   RETURNING *
+  `;
+  return employee;
+}
+
+async function deleteEmvployee(id) {
+  const employee = await sql`DELETE FROM employees 
+  WHERE id = ${id}
+  `
+  return {msg : "deleted"}
+}
+
 module.exports = {
   getAllEmployees,
   getEmployeeById,
   getAllEmployeesFromDepartment,
+  updateEmployeeInfo,
+  deleteEmvployee,
 };

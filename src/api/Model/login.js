@@ -35,7 +35,7 @@ WHERE employees.username = ${username}
     },
     process.env.SECRET_KEY,
     {
-      expiresIn: "1h",
+      expiresIn: "90d",
     }
   );
 
