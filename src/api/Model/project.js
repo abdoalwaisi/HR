@@ -15,9 +15,13 @@ async function createNewProject(
   return project;
 }
 
-async function getProjects() {
-  const project = sql`SELECT * FROM projects`;
+async function getProjects(id) {
+  const project = sql`
+   SELECT *
+   FROM projects
+   WHERE id = ${id}
+  `;
   return project;
 }
 
-module.exports = {createNewProject , getProjects}
+module.exports = { createNewProject, getProjects };

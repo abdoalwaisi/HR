@@ -2,9 +2,16 @@ const sql = require("../../Config/db");
 
 async function getAllRols() {
   const roles = await sql`
-    SELECT * FROM roles
+SELECT 
+  employees.name AS employee_name,
+  roles.title AS role_name,
+  departments.name AS department_name,
+  employees.username AS username
+FROM ((roles
+INNER JOIN departments ON departments.id = roles.department_id)
+INNER JOIN employees ON employees.role_id = roles.id)
     `;
-    return roles
+  return roles;
 }
 
 async function createRole(title, description = null, department_id) {

@@ -1,4 +1,5 @@
 const express = require("express");
+const Authentication = require("../Middlewares/Authentication");
 const rolecheck = require("../Helpers/accessControl");
 const {
   assignEmployeeToProject,
@@ -7,7 +8,7 @@ const {
 } = require("../Model/employee_projects");
 const router = express.Router();
 
-router.post("/", (req, res) => {
+router.post("/", Authentication, (req, res) => {
   const pass = rolecheck(["admin", "team lead"], req.user.role);
   if (!pass) return res.status(400).json("unauthorised");
 
@@ -24,7 +25,7 @@ router.post("/", (req, res) => {
   }
 });
 
-router.get("/:employee_id", (req, res) => {
+router.get("/:employee_id", Authentication, (req, res) => {
   const pass = rolecheck(["admin", "team lead", "manager"], req.user.role);
   if (!pass) return res.status(400).json("unauthorised");
 
@@ -38,7 +39,7 @@ router.get("/:employee_id", (req, res) => {
   }
 });
 
-router.get("/:project_id", (req, res) => {
+router.get("/:project_id", Authentication, (req, res) => {
   const pass = rolecheck(["admin", "team lead", "manager"], req.user.role);
   if (!pass) return res.status(400).json("unauthorised");
 

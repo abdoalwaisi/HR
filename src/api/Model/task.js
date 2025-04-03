@@ -24,9 +24,20 @@ async function createTask(
 
 async function getAllTasks() {
   const tasks = sql`
-    SELECT * FROM tasks
+SELECT 
+  tasks.name AS task_name ,
+  tasks.description AS description,
+  employees.name AS assigned_to,
+  projects.name AS project_name ,
+  departments.name AS department ,
+  tasks.created_at AS created_at , 
+  tasks.deadline AS deadline
+from (((tasks 
+INNER JOIN projects ON tasks.project_id = projects.id)
+INNER JOIN employees ON tasks.assigned_to = employees.id)
+INNER JOIN departments ON projects.department_id = departments.id)
     `;
   return tasks;
 }
 
-module.exports = {createTask , getAllTasks} ;
+module.exports = { createTask, getAllTasks };

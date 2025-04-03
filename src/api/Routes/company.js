@@ -1,4 +1,5 @@
 const express = require("express");
+const rolecheck = require("../Helpers/accessControl");
 const {
   createCompany,
   getAllCompanies,
@@ -11,7 +12,10 @@ const Authentication = require("../Middlewares/Authentication");
 
 const router = express.Router();
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", Authentication, async (req, res) => {
+  const pass = rolecheck(["super admin"], req.user.role);
+  if (!pass) return res.status(400).json("unauthorised");
+
   const id = req.params.id;
   try {
     const company = await getCompanyById(id);
@@ -22,6 +26,9 @@ router.get("/:id", async (req, res) => {
 });
 
 router.get("/", Authentication, async (req, res) => {
+  const pass = rolecheck(["super admin"], req.user.role);
+  if (!pass) return res.status(400).json("unauthorised");
+
   try {
     const companies = await getAllCompanies();
     res.json(companies);
@@ -30,7 +37,10 @@ router.get("/", Authentication, async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", Authentication, async (req, res) => {
+  const pass = rolecheck(["super admin"], req.user.role);
+  if (!pass) return res.status(400).json("unauthorised");
+
   const id = req.params.id;
   const name = req.body.name;
   if (!id || !name) {
@@ -46,7 +56,10 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", Authentication, async (req, res) => {
+  const pass = rolecheck(["super admin"], req.user.role);
+  if (!pass) return res.status(400).json("unauthorised");
+
   const name = req.body.name;
   if (!name) {
     res.status(400).json({ err: "name is require" });
@@ -59,7 +72,10 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", Authentication, async (req, res) => {
+  const pass = rolecheck(["super admin"], req.user.role);
+  if (!pass) return res.status(400).json("unauthorised");
+
   try {
     const id = req.params.id;
     await deleteCompany(id);
